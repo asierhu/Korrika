@@ -1,4 +1,5 @@
-﻿Imports Entidades
+﻿Imports System.IO
+Imports Entidades
 
 Public Class Korrika
     Public Property DatosGenerales As DatosGeneralesKorrika
@@ -119,5 +120,35 @@ Public Class Korrika
             End If
         Next
         Return kmLibres
+    End Function
+    Private Function LeerKorrika(num As Integer) As String
+        Dim nombreFichero As String = $"./Ficheros/Korrika{num}.txt"
+        If Not File.Exists(nombreFichero) Then
+            Return $"La Korrika{num} no existe"
+        End If
+        Dim lineas() As String = File.ReadAllLines(nombreFichero)
+        Dim datos() As String = lineas(0).Split("*")
+        If datos.Last Is Nothing Then
+            Return "Los datos generales son incorrectos"
+        End If
+        Dim byteComprobar As Byte
+        Dim intComprobar As Integer
+        Dim fechaIni As Date = $"#{datos(3)}#"
+        Dim fechaFin As Date = $"#{datos(4)}#"
+        Me.DatosGenerales = New DatosGeneralesKorrika(Byte.TryParse(datos(0), byteComprobar), Integer.TryParse(datos(1), intComprobar), datos(2), fechaIni, fechaFin, Integer.TryParse(datos(5), intComprobar))
+        Dim kilometros As New List(Of Kilometro)
+        For i = 1 To lineas.Length - 1
+            datos = lineas(i).Split("*")
+            Select Case datos.Length
+                Case 1
+                    kilometros.Add(New Kilometro(datos(0)))
+                Case 4
+                    kilometros.Add(New Kilometro(datos(0), datos(1), datos(2), datos(3)))
+                Case 6
+                    kilometros.Add(New KilometroFinanciado(New Kilometro(datos(0), datos(1), datos(2), datos(3)), datos(4), datos(5)))
+            End Select
+        Next
+        _Kilometros = kilometros
+        Return ""
     End Function
 End Class
