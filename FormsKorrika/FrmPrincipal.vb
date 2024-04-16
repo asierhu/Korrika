@@ -104,4 +104,13 @@ Public Class FrmPrincipal
         txtFechaInicio.Text = korrika.DatosGenerales.FechaInicio
 
     End Sub
+
+    Private Sub FrmPrincipal_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
+        If korrika.Cambios Then
+            If MessageBox.Show("Hay cambios sin guardar, ¿quieres guardarlos?", "Atencion", MessageBoxButtons.YesNo) = DialogResult.No Then
+                Exit Sub
+            End If
+            korrika.GuardarCambios()
+        End If
+    End Sub
 End Class
