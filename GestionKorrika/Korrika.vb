@@ -25,12 +25,21 @@ Public Class Korrika
     Private Sub TotalRecaudadoCalculo(euros As Decimal)
         _TotalRecaudado += euros
     End Sub
-    Public Sub New(nKorrika As Byte, anyo As Integer, eslogan As String, fechaInicio As Date, fechaFin As Date, cantKms As Integer)
-        Me.New(New DatosGeneralesKorrika(nKorrika, anyo, eslogan, fechaInicio, fechaFin, cantKms))
+    Public Sub New(nKorrika As Byte, anyo As Integer, eslogan As String, fechaInicio As Date, fechaFin As Date, cantKms As Integer, ByRef mensajeError As String)
+        Me.New(New DatosGeneralesKorrika(nKorrika, anyo, eslogan, fechaInicio, fechaFin, cantKms), mensajeError)
     End Sub
-    Public Sub New(datosGeneralesKorrika As DatosGeneralesKorrika)
+    Public Sub New(datosGeneralesKorrika As DatosGeneralesKorrika, ByRef mensajeError As String)
         DatosGenerales = datosGeneralesKorrika
         CrearKilometros(DatosGenerales.CantKms)
+        If Not File.Exists($"./Ficheros/Korrika{datosGeneralesKorrika.NKorrika}.txt") Then
+            mensajeError = $"Ya existe la korrrika Korrika{datosGeneralesKorrika.NKorrika}"
+            Exit Sub
+        End If
+        GuardarCambios()
+        _Cambios = False
+    End Sub
+    Public Sub New(nKorrika As Integer, ByRef mensajeError As String)
+        mensajeError = LeerKorrika(nKorrika)
     End Sub
     Private Sub CrearKilometros(cantKm)
         For i = 1 To cantKm
@@ -71,6 +80,7 @@ Public Class Korrika
             End If
         Next
         _Kilometros(posKm) = kilometro
+        _Cambios = True
         Return ""
     End Function
 
@@ -105,6 +115,7 @@ Public Class Korrika
         If organizacionYaEstaba Then
             Return $"La organización {organizacion} financia el kilómetro {numKm}, aunque ya había financiado otros {kmFinanciadosOrg} kilómetros"
         End If
+        _Cambios = True
         Return $"La organización {organizacion} financia el kilómetro {numKm}"
     End Function
     Public Function KilometrosLibreProvincia(provincia As String) As List(Of Kilometro)
@@ -128,7 +139,7 @@ Public Class Korrika
         End If
         Dim lineas() As String = File.ReadAllLines(nombreFichero)
         Dim datos() As String = lineas(0).Split("*")
-        If datos.Last Is Nothing Then
+        If Not datos.Length = 5 Then
             Return "Los datos generales son incorrectos"
         End If
         Dim byteComprobar As Byte
@@ -148,7 +159,34 @@ Public Class Korrika
                     kilometros.Add(New KilometroFinanciado(New Kilometro(datos(0), datos(1), datos(2), datos(3)), datos(4), datos(5)))
             End Select
         Next
-        _Kilometros = kilometros
+        Me._Kilometros = kilometros
         Return ""
     End Function
+    Public Function GuardarCambios() As String
+        Dim nombreFichero As String = $"./Ficheros/Korrika{DatosGenerales.NKorrika}.txt"
+        Dim lineas As New List(Of String)
+        lineas.Add($"{DatosGenerales.NKorrika}*{DatosGenerales.Anyo}*{DatosGenerales.Eslogan}*{DatosGenerales.FechaInicio}*{DatosGenerales.FechaFin}*{DatosGenerales.CantKms}")
+        For Each km In _Kilometros
+            If TypeOf km Is KilometroFinanciado Then
+                Dim kmFin As KilometroFinanciado = TryCast(km, KilometroFinanciado)
+                lineas.Add($"{kmFin.NumKm}*{kmFin.Direccion}*{kmFin.Localidad}*{kmFin.Provincia}*{kmFin.Organizacion}*{kmFin.Euros}")
+            Else
+                If km.Direccion = "" Then
+                    lineas.Add(km.NumKm)
+                Else
+                    lineas.Add($"{km.NumKm}*{km.Direccion}*{km.Localidad}*{km.Provincia}")
+                End If
+            End If
+        Next
+        _Cambios = False
+        File.WriteAllLines(nombreFichero, lineas.ToArray)
+        Return $"La korrika {DatosGenerales.NKorrika} se ha guardado"
+    End Function
+    Private Property _Cambios As Boolean
+    Public ReadOnly Property Cambios
+        Get
+            Return _Cambios
+        End Get
+    End Property
+
 End Class

@@ -54,7 +54,13 @@ Public Class FrmPrincipal
                 Exit Sub
             End If
         End If
-        korrika = New Korrika(txtNumKorrika.Text, txtAnyo.Text, txtEslogan.Text, txtFechaInicio.Text, txtFechaFin.Text, txtCantKms.Text)
+        Dim mensajeError As String
+        korrika = New Korrika(txtNumKorrika.Text, txtAnyo.Text, txtEslogan.Text, txtFechaInicio.Text, txtFechaFin.Text, txtCantKms.Text, mensajeError)
+        If mensajeError <> "" Then
+            MessageBox.Show(mensajeError)
+            korrika = Nothing
+            Exit Sub
+        End If
     End Sub
 
     Private Sub DefinirKmToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles DefinirKmToolStripMenuItem.Click, FinanciarKmToolStripMenuItem.Click
@@ -76,5 +82,26 @@ Public Class FrmPrincipal
 
     Private Sub FinalizarToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles FinalizarToolStripMenuItem.Click
         Close()
+    End Sub
+
+    Private Sub btnAcceder_Click(sender As Object, e As EventArgs) Handles btnAcceder.Click
+        Dim byteComp As Byte
+        If String.IsNullOrWhiteSpace(txtNumKorrika.Text) OrElse Byte.TryParse(txtNumKorrika.Text, byteComp) Then
+            MessageBox.Show("El numero no puede quedar vacio")
+            Exit Sub
+        End If
+        Dim mensajeError As String
+        korrika = New Korrika(byteComp, mensajeError)
+        If mensajeError <> "" Then
+            MessageBox.Show(mensajeError)
+            korrika = Nothing
+            Exit Sub
+        End If
+        txtAnyo.Text = korrika.DatosGenerales.Anyo
+        txtCantKms.Text = korrika.DatosGenerales.CantKms
+        txtEslogan.Text = korrika.DatosGenerales.Eslogan
+        txtFechaFin.Text = korrika.DatosGenerales.FechaFin
+        txtFechaInicio.Text = korrika.DatosGenerales.FechaInicio
+
     End Sub
 End Class

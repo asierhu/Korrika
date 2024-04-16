@@ -41,6 +41,7 @@ Partial Class FrmPrincipal
         Me.FinanciarKmToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripMenuItem1 = New System.Windows.Forms.ToolStripSeparator()
         Me.FinalizarToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.btnAcceder = New System.Windows.Forms.Button()
         Me.MenuStrip1.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -191,7 +192,7 @@ Partial Class FrmPrincipal
         Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ArchivoToolStripMenuItem})
         Me.MenuStrip1.Location = New System.Drawing.Point(0, 0)
         Me.MenuStrip1.Name = "MenuStrip1"
-        Me.MenuStrip1.Size = New System.Drawing.Size(753, 28)
+        Me.MenuStrip1.Size = New System.Drawing.Size(977, 28)
         Me.MenuStrip1.TabIndex = 13
         Me.MenuStrip1.Text = "MenuStrip1"
         '
@@ -206,14 +207,14 @@ Partial Class FrmPrincipal
         '
         Me.DefinirKmToolStripMenuItem.ForeColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(192, Byte), Integer))
         Me.DefinirKmToolStripMenuItem.Name = "DefinirKmToolStripMenuItem"
-        Me.DefinirKmToolStripMenuItem.Size = New System.Drawing.Size(224, 26)
+        Me.DefinirKmToolStripMenuItem.Size = New System.Drawing.Size(203, 26)
         Me.DefinirKmToolStripMenuItem.Text = "Definir km"
         '
         'FinanciarKmToolStripMenuItem
         '
         Me.FinanciarKmToolStripMenuItem.ForeColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(192, Byte), Integer))
         Me.FinanciarKmToolStripMenuItem.Name = "FinanciarKmToolStripMenuItem"
-        Me.FinanciarKmToolStripMenuItem.Size = New System.Drawing.Size(224, 26)
+        Me.FinanciarKmToolStripMenuItem.Size = New System.Drawing.Size(203, 26)
         Me.FinanciarKmToolStripMenuItem.Text = "Financiar Km"
         '
         'ToolStripMenuItem1
@@ -225,14 +226,24 @@ Partial Class FrmPrincipal
         '
         Me.FinalizarToolStripMenuItem.ForeColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(192, Byte), Integer))
         Me.FinalizarToolStripMenuItem.Name = "FinalizarToolStripMenuItem"
-        Me.FinalizarToolStripMenuItem.Size = New System.Drawing.Size(224, 26)
+        Me.FinalizarToolStripMenuItem.Size = New System.Drawing.Size(203, 26)
         Me.FinalizarToolStripMenuItem.Text = "Finalizar"
+        '
+        'btnAcceder
+        '
+        Me.btnAcceder.Location = New System.Drawing.Point(538, 75)
+        Me.btnAcceder.Name = "btnAcceder"
+        Me.btnAcceder.Size = New System.Drawing.Size(385, 36)
+        Me.btnAcceder.TabIndex = 14
+        Me.btnAcceder.Text = "Acceder a korrika existente"
+        Me.btnAcceder.UseVisualStyleBackColor = True
         '
         'FrmPrincipal
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(10.0!, 20.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(753, 554)
+        Me.ClientSize = New System.Drawing.Size(977, 554)
+        Me.Controls.Add(Me.btnAcceder)
         Me.Controls.Add(Me.txtNumKorrika)
         Me.Controls.Add(Me.Label6)
         Me.Controls.Add(Me.txtFechaFin)
@@ -281,4 +292,5 @@ Partial Class FrmPrincipal
     Friend WithEvents FinanciarKmToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents ToolStripMenuItem1 As ToolStripSeparator
     Friend WithEvents FinalizarToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents btnAcceder As Button
 End Class
