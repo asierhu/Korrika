@@ -36,7 +36,7 @@ Public Class Korrika
             mensajeError = $"Ya existe la korrrika Korrika{datosGeneralesKorrika.NKorrika}"
             Exit Sub
         End If
-        GuardarCambios()
+        mensajeError = GuardarCambios()
         _Cambios = False
     End Sub
     Public Sub New(nKorrika As Integer, ByRef mensajeError As String)
@@ -183,7 +183,11 @@ Public Class Korrika
             End If
         Next
         _Cambios = False
-        File.WriteAllLines(nombreFichero, lineas.ToArray)
+        Try
+            File.WriteAllLines(nombreFichero, lineas.ToArray)
+        Catch ex As Exception
+            Return $"Tienes que ejecutar el formulario y crear la carpeta Ficheros"
+        End Try
         Return $"La korrika {DatosGenerales.NKorrika} se ha guardado"
     End Function
     Private Property _Cambios As Boolean
