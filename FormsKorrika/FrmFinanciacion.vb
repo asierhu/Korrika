@@ -29,6 +29,10 @@ Public Class FrmFinanciacion
 
     Private Sub btnFinanciarKm_Click(sender As Object, e As EventArgs) Handles btnFinanciarKm.Click
         Dim kmSelect As Kilometro = TryCast(cboKmsProvincia.SelectedItem, Kilometro)
+        If kmSelect Is Nothing Then
+            MessageBox.Show("Selecciona un kilometro")
+            Exit Sub
+        End If
         Dim msg As String = korrika.PatrocinarKilometro(kmSelect.NumKm, txtNombreOrganización.Text, txtEuros.Text)
         MessageBox.Show(msg)
         If msg.Contains("financia el kilómetro") Then

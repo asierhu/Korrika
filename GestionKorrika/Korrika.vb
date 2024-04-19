@@ -27,11 +27,12 @@ Public Class Korrika
     End Sub
     Public Sub New(nKorrika As Byte, anyo As Integer, eslogan As String, fechaInicio As Date, fechaFin As Date, cantKms As Integer, ByRef mensajeError As String)
         Me.New(New DatosGeneralesKorrika(nKorrika, anyo, eslogan, fechaInicio, fechaFin, cantKms), mensajeError)
+
     End Sub
     Public Sub New(datosGeneralesKorrika As DatosGeneralesKorrika, ByRef mensajeError As String)
         DatosGenerales = datosGeneralesKorrika
         CrearKilometros(DatosGenerales.CantKms)
-        If Not File.Exists($"./Ficheros/Korrika{datosGeneralesKorrika.NKorrika}.txt") Then
+        If File.Exists($"./Ficheros/Korrika{datosGeneralesKorrika.NKorrika}.txt") Then
             mensajeError = $"Ya existe la korrrika Korrika{datosGeneralesKorrika.NKorrika}"
             Exit Sub
         End If
@@ -139,14 +140,17 @@ Public Class Korrika
         End If
         Dim lineas() As String = File.ReadAllLines(nombreFichero)
         Dim datos() As String = lineas(0).Split("*")
-        If Not datos.Length = 5 Then
+        If Not datos.Length = 6 Then
             Return "Los datos generales son incorrectos"
         End If
         Dim byteComprobar As Byte
-        Dim intComprobar As Integer
+        Dim anyoComp, numKmComp As Integer
+        Byte.TryParse(datos(0), byteComprobar)
         Dim fechaIni As Date = $"#{datos(3)}#"
         Dim fechaFin As Date = $"#{datos(4)}#"
-        Me.DatosGenerales = New DatosGeneralesKorrika(Byte.TryParse(datos(0), byteComprobar), Integer.TryParse(datos(1), intComprobar), datos(2), fechaIni, fechaFin, Integer.TryParse(datos(5), intComprobar))
+        Integer.TryParse(datos(1), anyoComp)
+        Integer.TryParse(datos(5), numKmComp)
+        Me.DatosGenerales = New DatosGeneralesKorrika(byteComprobar, anyoComp, datos(2), fechaIni, fechaFin, numKmComp)
         Dim kilometros As New List(Of Kilometro)
         For i = 1 To lineas.Length - 1
             datos = lineas(i).Split("*")
