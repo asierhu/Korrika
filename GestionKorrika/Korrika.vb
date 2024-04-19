@@ -140,7 +140,7 @@ Public Class Korrika
         End If
         Dim lineas() As String = File.ReadAllLines(nombreFichero)
         Dim datos() As String = lineas(0).Split("*")
-        If Not datos.Length = 6 Then
+        If Not datos.Length <= 6 Then
             Return "Los datos generales son incorrectos"
         End If
         Dim byteComprobar As Byte
