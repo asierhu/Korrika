@@ -1,0 +1,7 @@
+﻿Los commits deben ser significativos de lo que se ha modificado.
+Para analizar el trabajo de cada cual se tendrán en cuenta, así que cada cual deberá subir sus modificaciones
+
+En el proyecto tenéis comentarios 'TODO (Lista de tareas). Entenderlas y modificarlas si es el caso
+
+¿El proyecto solo lo ha hecho Asier? Es el único que tiene Commits
+' TODO: LA PRIMERA PARTE DE KORRIKA COMPARTIDA POR VARIOS GRUPOS EN CLASE, CON ERRORES 

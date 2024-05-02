@@ -85,6 +85,7 @@ Public Class FrmPrincipal
     End Sub
 
     Private Sub btnAcceder_Click(sender As Object, e As EventArgs) Handles btnAcceder.Click
+        'todo Debía comprobar si ya estábamos con una Korrika
         Dim byteComp As Byte
         If String.IsNullOrWhiteSpace(txtNumKorrika.Text) OrElse Not Byte.TryParse(txtNumKorrika.Text, byteComp) Then
             MessageBox.Show("El numero no puede quedar vacio")
@@ -109,7 +110,7 @@ Public Class FrmPrincipal
         If korrika Is Nothing Then
             Exit Sub
         End If
-        If korrika.Cambios Then
+        If korrika.Cambios Then ' todo Se pedía con 3 botones Si, No o Cancelar
             If MessageBox.Show("Hay cambios sin guardar, ¿quieres guardarlos?", "Atencion", MessageBoxButtons.YesNo) = DialogResult.No Then
                 Exit Sub
             End If

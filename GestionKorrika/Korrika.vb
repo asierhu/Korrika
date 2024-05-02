@@ -2,27 +2,28 @@
 Imports Entidades
 
 Public Class Korrika
+' TODO: LA PRIMERA PARTE DE KORRIKA COMPARTIDA POR VARIOS GRUPOS EN CLASE, CON ERRORES 
     Public Property DatosGenerales As DatosGeneralesKorrika
     Private Property _Provincias As New List(Of String) From {"araba", "gipuzkoa", "nafarroa", "bizkaia", "zuberoa", "nafarra behera", "lapurdi"}
-    Public ReadOnly Property Provincias
+    Public ReadOnly Property Provincias ' todo Las propiedades tienen que ser de un tipo concreto (Así es Object) Esto con todas
         Get
             Return _Provincias.AsReadOnly
         End Get
     End Property
-    Private Property _Kilometros As New List(Of Kilometro)
+    Private Property _Kilometros As New List(Of Kilometro) ' todo Esto no puede ser una propiedad
     Public ReadOnly Property Kilometros
         Get
             Return _Kilometros.AsReadOnly
         End Get
     End Property
     Private Property _TotalRecaudado As Decimal
-    Public ReadOnly Property TotalRecaudado
+    Public ReadOnly Property TotalRecaudado ' todo Ahora no valía esta solución sino la que CORREGIMOS en clase
         Get
             Return _TotalRecaudado
         End Get
     End Property
 
-    Private Sub TotalRecaudadoCalculo(euros As Decimal)
+    Private Sub TotalRecaudadoCalculo(euros As Decimal) ' todo Esto no vale
         _TotalRecaudado += euros
     End Sub
     Public Sub New(nKorrika As Byte, anyo As Integer, eslogan As String, fechaInicio As Date, fechaFin As Date, cantKms As Integer, ByRef mensajeError As String)
@@ -30,7 +31,7 @@ Public Class Korrika
 
     End Sub
     Public Sub New(datosGeneralesKorrika As DatosGeneralesKorrika, ByRef mensajeError As String)
-        DatosGenerales = datosGeneralesKorrika
+        DatosGenerales = datosGeneralesKorrika ' todo Lo lógico es que esto lo haga después
         CrearKilometros(DatosGenerales.CantKms)
         If File.Exists($"./Ficheros/Korrika{datosGeneralesKorrika.NKorrika}.txt") Then
             mensajeError = $"Ya existe la korrrika Korrika{datosGeneralesKorrika.NKorrika}"
@@ -133,7 +134,7 @@ Public Class Korrika
         Next
         Return kmLibres
     End Function
-    Private Function LeerKorrika(num As Integer) As String
+    Private Function LeerKorrika(num As Integer) As String ' todo Nombre de parámetro (num) que no aclara el motivo del número
         Dim nombreFichero As String = $"./Ficheros/Korrika{num}.txt"
         If Not File.Exists(nombreFichero) Then
             Return $"La Korrika{num} no existe"
@@ -146,9 +147,9 @@ Public Class Korrika
         Dim byteComprobar As Byte
         Dim anyoComp, numKmComp As Integer
         Byte.TryParse(datos(0), byteComprobar)
-        Dim fechaIni As Date = $"#{datos(3)}#"
+        Dim fechaIni As Date = $"#{datos(3)}#" ' todo No es lógica esta forma, ya que si no hay un dato válido provoca error de ejecución. Para esto tenemos el Date.TryParse
         Dim fechaFin As Date = $"#{datos(4)}#"
-        Integer.TryParse(datos(1), anyoComp)
+        Integer.TryParse(datos(1), anyoComp) ' todo ¿Y qué ocurre si no en un entero?
         Integer.TryParse(datos(5), numKmComp)
         Me.DatosGenerales = New DatosGeneralesKorrika(byteComprobar, anyoComp, datos(2), fechaIni, fechaFin, numKmComp)
         Dim kilometros As New List(Of Kilometro)
@@ -186,12 +187,12 @@ Public Class Korrika
         Try
             File.WriteAllLines(nombreFichero, lineas.ToArray)
         Catch ex As Exception
-            Return $"Tienes que ejecutar el formulario y crear la carpeta Ficheros"
+            Return $"Tienes que ejecutar el formulario y crear la carpeta Ficheros" ' todo La clase no tiene porqué saber que es un formulario, ... Mensaje en todo caso: No existe la carpeta Ficheros
         End Try
         Return $"La korrika {DatosGenerales.NKorrika} se ha guardado"
     End Function
-    Private Property _Cambios As Boolean
-    Public ReadOnly Property Cambios
+    Private Property _Cambios As Boolean ' todo ¡¡¡No puede ser una propiedad!!!
+    Public ReadOnly Property Cambios ' todo Las propiedades tienen que ser de un tipo concreto (Así es Object)
         Get
             Return _Cambios
         End Get
